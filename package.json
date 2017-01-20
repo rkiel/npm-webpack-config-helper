@@ -1,6 +1,6 @@
 {
   "name": "webpack-config-helper",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Utility to make it easier to construct your webpack config",
   "main": "index.js",
   "scripts": {
@@ -11,5 +11,13 @@
   "keywords": [
     "webpack",
     "config"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rkiel/npm-webpack-config-helper"
+  },
+  "bugs": {
+    "url": "https://github.com/rkiel/npm-webpack-config-helper/issues"
+  },
+  "homepage": "https://github.com/rkiel/npm-webpack-config-helper#readme"
 }
