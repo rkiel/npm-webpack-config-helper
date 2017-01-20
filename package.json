@@ -1,0 +1,15 @@
+{
+  "name": "webpack-config-helper",
+  "version": "0.0.1",
+  "description": "Utility to make it easier to construct your webpack config",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Robert Kiel",
+  "license": "MIT",
+  "keywords": [
+    "webpack",
+    "config"
+  ]
+}
