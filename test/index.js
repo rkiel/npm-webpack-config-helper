@@ -103,4 +103,39 @@ describe('webpack-config-helper', function () {
     });
   });
 
+  describe('addRuleForBabel', function() {
+    var helper;
+
+    before(function () {
+      helper = new Helper();
+    })
+
+    it('should add a rule for Babel', function() {
+      var rules = helper.addRuleForBabel().exports().module.rules;
+
+      expect(rules[0]).to.eql({
+        use: 'babel-loader',
+        test: /\.js$/,
+        exclude: "/node_modules/"
+      });
+    });
+  });
+
+  describe('addRuleForCssAndStyle', function() {
+    var helper;
+
+    before(function () {
+      helper = new Helper();
+    })
+
+    it('should add a rule for CSS and Style', function() {
+      var rules = helper.addRuleForCssAndStyle().exports().module.rules;
+
+      expect(rules[0]).to.eql({
+        use: ['style-loader', 'css-loader'],
+        test: /\.css$/
+      });
+    });
+  });
+
 });

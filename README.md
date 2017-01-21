@@ -38,8 +38,8 @@ module.exports = new Helper()
 * new -- invoke the constructor to create minimal webpack config
 * entry -- override the default entry point
 * output -- override the default output
-* addRuleForBabel -- add a rule to support Babel
-* addRuleForCssAndStyle -- add a rule to support CSS and Style loaders
+* addRuleForBabel -- add a rule to support Babel (NOTE: requires prerequisites)
+* addRuleForCssAndStyle -- add a rule to support CSS and Style loaders (NOTE: requires prerequisites)
 * custom -- invoke callback to allow custom changes to the config object
 * echo -- display the current state of the config object
 * exports -- return the config  object
