@@ -87,7 +87,7 @@ Helper.prototype.exports = function() {
   return this.config;
 }
 
-function addRuleForImages(config) {
+Helper.prototype.addRuleForImages = function() {
   const rule = {
     test: /\.(jpg|jpeg|png|gif|svg)$/,
     use: [
@@ -98,8 +98,8 @@ function addRuleForImages(config) {
       'image-webpack-loader' // applied from right to left
     ]
   };
-  config.module.rules.push(rule);
-  return config;
+  this.config.module.rules.push(rule);
+  return this;
 }
 
 module.exports = Helper;

@@ -155,4 +155,27 @@ describe('webpack-config-helper', function () {
     });
   });
 
+  describe('addRuleForImages', function() {
+    var helper;
+
+    before(function () {
+      helper = new Helper();
+    })
+
+    it('should add a rule for images', function() {
+      var rules = helper.addRuleForImages().exports().module.rules;
+
+      expect(rules[0]).to.eql({
+        test: /\.(jpg|jpeg|png|gif|svg)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {limit: 40000}
+          },
+          'image-webpack-loader'
+        ]
+      });
+    });
+  });
+
 });

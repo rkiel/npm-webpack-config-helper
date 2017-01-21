@@ -41,6 +41,7 @@ module.exports = new Helper()
 * addRuleForBabel -- add a rule to support Babel (NOTE: requires prerequisites)
 * addRuleForCssAndStyle -- add a rule to support CSS and Style loaders (NOTE: requires prerequisites)
 * addRuleForExtractCss -- add a rule to support extracting CSS into a file (NOTE: requires prerequisites)
+* addRuleForImages -- add a rule to support images (NOTE: requires prerequisites)
 * custom -- invoke callback to allow custom changes to the config object
 * echo -- display the current state of the config object
 * exports -- return the config  object
@@ -160,7 +161,7 @@ There is a prerequisite to adding this to your config.  You need to install the 
 npm install --save-dev style-loader css-loader # for example
 ```
 
-#### addRuleForExtractCss
+#### addRuleForExtractCss ( _cssName_ )
 
 Add a rule to the `module.rules` for babel.  For example,
 
@@ -189,6 +190,36 @@ There is a prerequisite to adding this to your config.  You need to install the 
 
 ```unix
 npm install --save-dev css-loader extract-text-webpack-plugin # for example
+```
+
+#### addRuleForImages
+
+Add a rule to the `module.rules` for babel.  For example,
+
+```javascript
+new Helper().addRuleForImages()
+```
+
+will push the following rule to `module.rules`.
+
+```javascript
+{
+  test: /\.(jpg|jpeg|png|gif|svg)$/,
+  use: [
+    {
+      loader: 'url-loader',
+      options: {limit: 40000} // 40K
+    },
+    'image-webpack-loader' // applied from right to left
+  ]
+}
+```
+
+There is a prerequisite to adding this to your config.  You need to install the image and url loaders.  For example,
+
+```unix
+npm install --save-dev image-webpack-loader url-loader # for example
+
 ```
 
 #### echo
