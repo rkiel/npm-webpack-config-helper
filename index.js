@@ -50,11 +50,22 @@ function ruleForCssAndStyle() {
   return object;
 }
 
-function generate(o) {
-  var options = o || {};
-  if (options.verbose) {
-    console.log(JSON.stringify(config, null, '  '));
+function custom(cb) {
+  cb(config);
+  return object;
+}
+
+function echo(msg) {
+  console.log();
+  if (msg) {
+    console.log(msg);
+    console.log();
   }
+  console.log(JSON.stringify(config, null, '  '));
+  console.log();
+  return object;
+}
+function exports() {
   return config;
 }
 
@@ -63,7 +74,9 @@ object = {
   output: output,
   addRuleForBabel: ruleForBabel,
   addRuleForCssAndStyle: ruleForCssAndStyle,
-  generate: generate
+  custom: custom,
+  echo: echo,
+  exports: exports
 };
 
 
@@ -106,6 +119,5 @@ module.exports = {
   init: init,
   addPublicPath: addPublicPath,
   addRuleForExtracText: addRuleForExtracText,
-  addRuleForImages: addRuleForImages,
-  build: build
+  addRuleForImages: addRuleForImages
 }

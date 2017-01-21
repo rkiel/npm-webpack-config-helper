@@ -4,11 +4,19 @@ Utility to make it easier to construct your webpack config
 
 ## Installation
 
-This module is distributed via [npm][npm] which is bundled with [node][node] and should
+This module is distributed via **npm** which is bundled with **node** and should
 be installed as one of your project's `devDependencies`:
+
+Using npm
 
 ```
 npm install --save-dev webpack-config-helper
+```
+
+or yarn
+
+```
+yarn add --dev webpack-config-helper
 ```
 
 ## Usage
@@ -18,18 +26,21 @@ It is expected that you use this in your `webpack.config.js` file.
 ```javascript
 const helper = require('webpack-config-helper');
 
-const steps = [
-  helper.addMinimum,
-  helper.initForModuleRules,
-  helper.initForPlugins,
-  helper.addRuleForBabel,
-  helper.addRuleForCssAndStyle
-];
-
-const config = helper.build(steps);
-
-module.exports = config;
+module.exports = helper.init()
+  .addRuleForBabel()
+  .addRuleForCssAndStyle()
+  .echo()
+  .exports()
 ```
+
+## Summary
+
+* init -- initialize a minimal config object
+* addRuleForBabel -- add a rule to support Babel
+* addRuleForCssAndStyle -- add a rule to support CSS and Style loaders
+* custom -- invoke callback to allow custom changes to the config object
+* echo -- display the current state of the config object
+* exports -- return the config  object
 
 ## LICENSE
 
