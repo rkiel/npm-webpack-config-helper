@@ -1,49 +1,75 @@
 const path = require('path');
 
-function addMinimum(config) {
-  config.entry = './src/index.js';  // relative path
+var object;
+var config;
 
-  config.output = {
-    path: path.resolve(__dirname, 'build'), // absolute path
-    filename: 'bundle.js'
-  };
-  return config;
-}
-
-// used by some loaders including url-loader
-function addPublicPath(config) {
-  config.output.publicPath = config.output.path.split('/').reverse()[0] + '/'
-  return config;
-}
-
-function initForModuleRules(config) {
+function init(c) {
+  if (c) {
+    config = c;
+  } else {
+    config = {};
+  }
+  config.entry = '';
+  config.output = {};
   config.module = {
     rules: []
   };
-  return config;
-}
-
-function initForPlugins(config) {
   config.plugins = [];
-  return config;
+  object.entry('./src/index.js');
+  object.output('build', 'bundle.js');
+  return object;
 }
 
-function addRuleForBabel(config) {
+function entry(path) {
+  config.entry = path;
+  return object;
+}
+
+function output(directory, filename) {
+  config.output.path = path.resolve(__dirname, directory);
+  config.output.filename = filename;
+  return object;
+}
+
+function ruleForBabel() {
   const rule = {
     use: 'babel-loader',
     test: /\.js$/,
     exclude: "/node_modules/"
   };
   config.module.rules.push(rule);
-  return config;
+  return object;
 }
 
-function addRuleForCssAndStyle(config) {
+function ruleForCssAndStyle() {
   const rule = {
     use: ['style-loader', 'css-loader'], // applied from right to left
     test: /\.css$/
   }
   config.module.rules.push(rule);
+  return object;
+}
+
+function generate(o) {
+  var options = o || {};
+  if (options.verbose) {
+    console.log(JSON.stringify(config, null, '  '));
+  }
+  return config;
+}
+
+object = {
+  entry: entry,
+  output: output,
+  addRuleForBabel: ruleForBabel,
+  addRuleForCssAndStyle: ruleForCssAndStyle,
+  generate: generate
+};
+
+
+// used by some loaders including url-loader
+function addPublicPath(config) {
+  config.output.publicPath = config.output.path.split('/').reverse()[0] + '/'
   return config;
 }
 
@@ -76,23 +102,9 @@ function addRuleForImages(config) {
   return config;
 }
 
-function build(steps) {
-  cosnt config = steps.reduce(function(config, step) {
-    return step(config);
-  }, {});
-
-  console.log(JSON.stringify(config, null, '  '));
-
-  return config;
-}
-
 module.exports = {
-  addMinimum: addMinimum,
+  init: init,
   addPublicPath: addPublicPath,
-  initForModuleRules: initForModuleRules,
-  initForPlugins: initForPlugins,
-  addRuleForBabel: addRuleForBabel,
-  addRuleForCssAndStyle: addRuleForCssAndStyle,
   addRuleForExtracText: addRuleForExtracText,
   addRuleForImages: addRuleForImages,
   build: build
