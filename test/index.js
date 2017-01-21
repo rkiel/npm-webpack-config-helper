@@ -6,9 +6,9 @@ describe('webpack-config-helper', function () {
 
   describe('init', function() {
     it('should add a default entry', function () {
-      var config = new Helper();
+      var helper = new Helper();
 
-      expect(config.exports()).to.eql({
+      expect(helper.exports()).to.eql({
         entry: './src/index.js',
         output: {
           filename: 'bundle.js',
@@ -26,9 +26,9 @@ describe('webpack-config-helper', function () {
         entry: '.src/foo.js',
         fakeInput: 'fake.input'
       }
-      var config = new Helper(existingConfig);
+      var helper = new Helper(existingConfig);
 
-      expect(config.exports()).to.eql({
+      expect(helper.exports()).to.eql({
         fakeInput: 'fake.input',
         entry: './src/index.js',
         output: {
@@ -42,11 +42,11 @@ describe('webpack-config-helper', function () {
       });
     });
 
-    it('should add a default entry to an existing object', function () {
-      var config1 = new Helper().entry('./src/begin.js');
-      var config2 = new Helper().entry('./src/start.js');
+    it('should support to distinct instances', function () {
+      var helper1 = new Helper().entry('./src/begin.js');
+      var helper2 = new Helper().entry('./src/start.js');
 
-      expect(config1.exports()).to.eql({
+      expect(helper1.exports()).to.eql({
         entry: './src/begin.js',
         output: {
           filename: 'bundle.js',
@@ -57,7 +57,7 @@ describe('webpack-config-helper', function () {
         },
         plugins: []
       });
-      expect(config2.exports()).to.eql({
+      expect(helper2.exports()).to.eql({
         entry: './src/start.js',
         output: {
           filename: 'bundle.js',
@@ -70,6 +70,37 @@ describe('webpack-config-helper', function () {
       });
     });
 
+  });
+
+  describe('entry', function () {
+    var helper;
+
+    before(function () {
+      helper = new Helper();
+    })
+
+    it('should override the entry', function() {
+      helper.entry('./src/start.js');
+      expect(helper.exports().entry).to.equal('./src/start.js');
+      helper.entry('./src/begin.js');
+      expect(helper.exports().entry).to.equal('./src/begin.js');
+    });
+  });
+
+  describe('output', function () {
+    var helper;
+
+    before(function () {
+      helper = new Helper();
+    })
+
+    it('should override the ouput', function() {
+      helper.output('dest', 'dest.js')
+      expect(helper.exports().output).to.eql({
+        path: path.resolve(__dirname, '..', 'dest'),
+        filename: 'dest.js'
+      });
+    });
   });
 
 });

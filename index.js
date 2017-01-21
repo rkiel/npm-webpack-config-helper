@@ -1,6 +1,6 @@
 const path = require('path');
 
-function helper(c) {
+function Helper(c) {
   if (c) {
     this.config = c;
   } else {
@@ -16,18 +16,18 @@ function helper(c) {
   this.output('build', 'bundle.js');
 }
 
-helper.prototype.entry = function(path) {
+Helper.prototype.entry = function(path) {
   this.config.entry = path;
   return this;
 }
 
-helper.prototype.output = function(directory, filename) {
+Helper.prototype.output = function(directory, filename) {
   this.config.output.path = path.resolve(__dirname, directory);
   this.config.output.filename = filename;
   return this;
 }
 
-helper.prototype.addRuleForBabel = function () {
+Helper.prototype.addRuleForBabel = function () {
   const rule = {
     use: 'babel-loader',
     test: /\.js$/,
@@ -37,7 +37,7 @@ helper.prototype.addRuleForBabel = function () {
   return this;
 }
 
-helper.prototype.addRuleForCssAndStyle = function() {
+Helper.prototype.addRuleForCssAndStyle = function() {
   const rule = {
     use: ['style-loader', 'css-loader'], // applied from right to left
     test: /\.css$/
@@ -46,12 +46,12 @@ helper.prototype.addRuleForCssAndStyle = function() {
   return this;
 }
 
-helper.prototype.custom = function(cb) {
+Helper.prototype.custom = function(cb) {
   cb(this.config);
   return this;
 }
 
-helper.prototype.echo = function(msg) {
+Helper.prototype.echo = function(msg) {
   console.log();
   if (msg) {
     console.log(msg);
@@ -62,7 +62,7 @@ helper.prototype.echo = function(msg) {
   return this;
 }
 
-helper.prototype.exports = function() {
+Helper.prototype.exports = function() {
   return this.config;
 }
 
@@ -101,4 +101,4 @@ function addRuleForImages(config) {
   return config;
 }
 
-module.exports = helper;
+module.exports = Helper;
