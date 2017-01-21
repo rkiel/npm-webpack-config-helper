@@ -1,6 +1,6 @@
 {
   "name": "webpack-config-helper",
-  "version": "0.0.20",
+  "version": "0.0.23",
   "description": "Utility to make it easier to construct your webpack config",
   "main": "index.js",
   "scripts": {
@@ -22,6 +22,10 @@
   "homepage": "https://github.com/rkiel/npm-webpack-config-helper#readme",
   "devDependencies": {
     "chai": "^3.5.0",
-    "mocha": "^3.2.0"
+    "css-loader": "^0.26.1",
+    "extract-text-webpack-plugin": "2.0.0-beta.4",
+    "mocha": "^3.2.0",
+    "style-loader": "^0.13.1",
+    "webpack": "2.2.0-rc.0"
   }
 }

@@ -27,6 +27,11 @@ Helper.prototype.output = function(directory, filename) {
   return this;
 }
 
+Helper.prototype.addPublicPath = function() {
+  this.config.output.publicPath = config.output.path.split('/').reverse()[0] + '/'
+  return this;
+}
+
 Helper.prototype.addRuleForBabel = function () {
   const rule = {
     use: 'babel-loader',
@@ -43,6 +48,22 @@ Helper.prototype.addRuleForCssAndStyle = function() {
     test: /\.css$/
   }
   this.config.module.rules.push(rule);
+  return this;
+}
+
+Helper.prototype.addRuleForExtractCss = function(cssName) {
+  var name = cssName || 'style.css';
+  const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+  const rule = {
+    loader: ExtractTextPlugin.extract({
+      loader: 'css-loader' // plugin replaces style-loader
+    }),
+    test: /\.css$/
+  }
+  const plugin = new ExtractTextPlugin(name);
+  this.config.module.rules.push(rule);
+  this.config.plugins.push(plugin);
   return this;
 }
 
@@ -64,26 +85,6 @@ Helper.prototype.echo = function(msg) {
 
 Helper.prototype.exports = function() {
   return this.config;
-}
-
-// used by some loaders including url-loader
-function addPublicPath(config) {
-  config.output.publicPath = config.output.path.split('/').reverse()[0] + '/'
-  return config;
-}
-
-function addRuleForExtracText(config) {
-  const ExtractTextPlugin = require('extract-text-webpack-plugin');
-  const rule = {
-    loader: ExtractTextPlugin.extract({
-      loader: 'css-loader' // plugin replaces style-loader
-    }),
-    test: /\.css$/
-  }
-  const plugin = new ExtractTextPlugin('style.css');
-  config.module.rules.push(rule);
-  config.plugins.push(plugin);
-  return config;
 }
 
 function addRuleForImages(config) {

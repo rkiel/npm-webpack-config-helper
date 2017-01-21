@@ -138,4 +138,21 @@ describe('webpack-config-helper', function () {
     });
   });
 
+  describe('addRuleForExtractCss', function() {
+    var helper;
+
+    before(function () {
+      helper = new Helper();
+    })
+
+    it('should add a rule for CSS and ExtractText', function() {
+      var exports = helper.addRuleForExtractCss().exports();
+      var rules = exports.module.rules;
+      var plugins = exports.plugins;
+
+      expect(rules.length).to.eql(1);
+      expect(plugins.length).to.eql(1);
+    });
+  });
+
 });

@@ -40,6 +40,7 @@ module.exports = new Helper()
 * output -- override the default output
 * addRuleForBabel -- add a rule to support Babel (NOTE: requires prerequisites)
 * addRuleForCssAndStyle -- add a rule to support CSS and Style loaders (NOTE: requires prerequisites)
+* addRuleForExtractCss -- add a rule to support extracting CSS into a file (NOTE: requires prerequisites)
 * custom -- invoke callback to allow custom changes to the config object
 * echo -- display the current state of the config object
 * exports -- return the config  object
@@ -153,10 +154,41 @@ will push the following rule to `module.rules`.
 }
 ```
 
-There is a prerequisite to adding this to your config.  You need to install the css and style loader modules.  For example,
+There is a prerequisite to adding this to your config.  You need to install the css and style loaders.  For example,
 
 ```unix
 npm install --save-dev style-loader css-loader # for example
+```
+
+#### addRuleForExtractCss
+
+Add a rule to the `module.rules` for babel.  For example,
+
+```javascript
+new Helper().addRuleForExtractCss()
+```
+
+will push the following rule to `module.rules`.
+
+```javascript
+{
+  loader: ExtractTextPlugin.extract({
+    loader: 'css-loader'
+  }),
+  test: /\.css$/
+}
+```
+
+and will push the following plugin to `plugins`
+
+```javascript
+new ExtractTextPlugin('style.css')
+```
+
+There is a prerequisite to adding this to your config.  You need to install the css loader and extract text plugin.  For example,
+
+```unix
+npm install --save-dev css-loader extract-text-webpack-plugin # for example
 ```
 
 #### echo
