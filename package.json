@@ -1,10 +1,10 @@
 {
   "name": "webpack-config-helper",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Utility to make it easier to construct your webpack config",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha || true"
   },
   "author": "Robert Kiel",
   "license": "MIT",
@@ -19,5 +19,9 @@
   "bugs": {
     "url": "https://github.com/rkiel/npm-webpack-config-helper/issues"
   },
-  "homepage": "https://github.com/rkiel/npm-webpack-config-helper#readme"
+  "homepage": "https://github.com/rkiel/npm-webpack-config-helper#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
+  }
 }
