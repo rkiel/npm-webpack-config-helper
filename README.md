@@ -24,9 +24,9 @@ yarn add --dev webpack-config-helper
 It is expected that you use this in your `webpack.config.js` file.
 
 ```javascript
-const helper = require('webpack-config-helper');
+const Helper = require('webpack-config-helper');
 
-module.exports = helper.init()
+module.exports = new Helper()
   .addRuleForBabel()
   .addRuleForCssAndStyle()
   .echo()

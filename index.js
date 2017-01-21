@@ -1,84 +1,70 @@
 const path = require('path');
 
-var object;
-var config;
-
-function init(c) {
+function helper(c) {
   if (c) {
-    config = c;
+    this.config = c;
   } else {
-    config = {};
+    this.config = {};
   }
-  config.entry = '';
-  config.output = {};
-  config.module = {
+  this.config.entry = '';
+  this.config.output = {};
+  this.config.module = {
     rules: []
   };
-  config.plugins = [];
-  object.entry('./src/index.js');
-  object.output('build', 'bundle.js');
-  return object;
+  this.config.plugins = [];
+  this.entry('./src/index.js');
+  this.output('build', 'bundle.js');
 }
 
-function entry(path) {
-  config.entry = path;
-  return object;
+helper.prototype.entry = function(path) {
+  this.config.entry = path;
+  return this;
 }
 
-function output(directory, filename) {
-  config.output.path = path.resolve(__dirname, directory);
-  config.output.filename = filename;
-  return object;
+helper.prototype.output = function(directory, filename) {
+  this.config.output.path = path.resolve(__dirname, directory);
+  this.config.output.filename = filename;
+  return this;
 }
 
-function ruleForBabel() {
+helper.prototype.addRuleForBabel = function () {
   const rule = {
     use: 'babel-loader',
     test: /\.js$/,
     exclude: "/node_modules/"
   };
-  config.module.rules.push(rule);
-  return object;
+  this.config.module.rules.push(rule);
+  return this;
 }
 
-function ruleForCssAndStyle() {
+helper.prototype.addRuleForCssAndStyle = function() {
   const rule = {
     use: ['style-loader', 'css-loader'], // applied from right to left
     test: /\.css$/
   }
-  config.module.rules.push(rule);
-  return object;
+  this.config.module.rules.push(rule);
+  return this;
 }
 
-function custom(cb) {
-  cb(config);
-  return object;
+helper.prototype.custom = function(cb) {
+  cb(this.config);
+  return this;
 }
 
-function echo(msg) {
+helper.prototype.echo = function(msg) {
   console.log();
   if (msg) {
     console.log(msg);
     console.log();
   }
-  console.log(JSON.stringify(config, null, '  '));
+  console.log(JSON.stringify(this.config, null, '  '));
   console.log();
-  return object;
-}
-function exports() {
-  return config;
+  return this;
 }
 
-object = {
-  entry: entry,
-  output: output,
-  addRuleForBabel: ruleForBabel,
-  addRuleForCssAndStyle: ruleForCssAndStyle,
-  custom: custom,
-  echo: echo,
-  exports: exports
-};
-
+helper.prototype.exports = function() {
+  return this.config;
+}
 
 // used by some loaders including url-loader
 function addPublicPath(config) {
@@ -115,9 +101,4 @@ function addRuleForImages(config) {
   return config;
 }
 
-module.exports = {
-  init: init,
-  addPublicPath: addPublicPath,
-  addRuleForExtracText: addRuleForExtracText,
-  addRuleForImages: addRuleForImages
-}
+module.exports = helper;
