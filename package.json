@@ -1,6 +1,6 @@
 {
   "name": "webpack-config-helper",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Utility to make it easier to construct your webpack config",
   "main": "index.js",
   "scripts": {
