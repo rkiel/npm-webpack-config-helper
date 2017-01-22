@@ -22,7 +22,7 @@ Helper.prototype.entry = function(path) {
 }
 
 Helper.prototype.output = function(directory, filename) {
-  this.config.output.path = path.resolve(__dirname, directory);
+  this.config.output.path = path.resolve(process.cwd(), directory);
   this.config.output.filename = filename;
   return this;
 }

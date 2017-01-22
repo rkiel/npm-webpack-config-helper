@@ -97,7 +97,7 @@ describe('webpack-config-helper', function () {
     it('should override the ouput', function() {
       helper.output('dest', 'dest.js')
       expect(helper.exports().output).to.eql({
-        path: path.resolve(__dirname, '..', 'dest'),
+        path: path.resolve(process.cwd(), 'dest'),
         filename: 'dest.js'
       });
     });
