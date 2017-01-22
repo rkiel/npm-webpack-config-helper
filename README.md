@@ -38,6 +38,7 @@ module.exports = new Helper()
 
 * new -- invoke the constructor to create minimal webpack config
 * entry -- override the default entry point
+* entryAndCommonsChunk -- add entry point and code splitting
 * output -- override the default output
 * addRuleForBabel -- add a rule to support Babel (NOTE: requires prerequisites)
 * addRuleForCssAndStyle -- add a rule to support CSS and Style loaders (NOTE: requires prerequisites)

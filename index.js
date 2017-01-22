@@ -68,14 +68,23 @@ Helper.prototype.addRuleForExtractCss = function(cssName) {
   return this;
 }
 
-Helper.prototype.addEntryAndCommonsChunk = function (name, modules) {
+Helper.prototype.addCommonsChunk = function (name) {
+  var webpack = require('webpack');
+  const plugin = new webpack.optimize.CommonsChunkPlugin({
+    name: name
+  });
+  this.config.plugins.push(plugin);
+  return this;
+}
+
+Helper.prototype.entryAndCommonsChunk = function (name, modules) {
   if (modules) {
     this.entry(name, modules);
   } else {
     var fs = require('fs');
     const content = fs.readFileSync(path.resolve(process.cwd(), 'package.json'));
     const packageJson = JSON.parse(content);
-    this.entry(name, Object.keys(packageJson.dependencies).sort());
+    this.entry(name, Object.keys(packageJson.dependencies));
   }
   this.addCommonsChunk(name);
   return this;
