@@ -9,30 +9,11 @@ describe('webpack-config-helper', function () {
       var helper = new Helper();
 
       expect(helper.exports()).to.eql({
-        entry: './src/index.js',
-        output: {
-          filename: 'bundle.js',
-          path: path.resolve(__dirname, '..', 'build')
+        entry: {
+          bundle: './src/index.js'
         },
-        module: {
-          rules: []
-        },
-        plugins: []
-      });
-    });
-
-    it('should add a default entry to an existing object', function () {
-      var existingConfig = {
-        entry: '.src/foo.js',
-        fakeInput: 'fake.input'
-      }
-      var helper = new Helper(existingConfig);
-
-      expect(helper.exports()).to.eql({
-        fakeInput: 'fake.input',
-        entry: './src/index.js',
         output: {
-          filename: 'bundle.js',
+          filename: '[name].js',
           path: path.resolve(__dirname, '..', 'build')
         },
         module: {
@@ -43,13 +24,15 @@ describe('webpack-config-helper', function () {
     });
 
     it('should support to distinct instances', function () {
-      var helper1 = new Helper().entry('./src/begin.js');
-      var helper2 = new Helper().entry('./src/start.js');
+      var helper1 = new Helper().entry('begin', './src/begin.js');
+      var helper2 = new Helper().entry('start', './src/start.js');
 
       expect(helper1.exports()).to.eql({
-        entry: './src/begin.js',
+        entry: {
+          begin: './src/begin.js'
+        },
         output: {
-          filename: 'bundle.js',
+          filename: '[name].js',
           path: path.resolve(__dirname, '..', 'build')
         },
         module: {
@@ -58,9 +41,11 @@ describe('webpack-config-helper', function () {
         plugins: []
       });
       expect(helper2.exports()).to.eql({
-        entry: './src/start.js',
+        entry: {
+          start: './src/start.js'
+        },
         output: {
-          filename: 'bundle.js',
+          filename: '[name].js',
           path: path.resolve(__dirname, '..', 'build')
         },
         module: {
@@ -80,10 +65,15 @@ describe('webpack-config-helper', function () {
     })
 
     it('should override the entry', function() {
-      helper.entry('./src/start.js');
-      expect(helper.exports().entry).to.equal('./src/start.js');
-      helper.entry('./src/begin.js');
-      expect(helper.exports().entry).to.equal('./src/begin.js');
+      helper.entry('start', './src/start.js');
+      expect(helper.exports().entry).to.eql({
+        start: './src/start.js'
+      });
+      helper.entry('begin', './src/begin.js');
+      expect(helper.exports().entry).to.eql({
+        start: './src/start.js',
+        begin: './src/begin.js'
+      });
     });
   });
 
@@ -98,7 +88,7 @@ describe('webpack-config-helper', function () {
       helper.output('dest', 'dest.js')
       expect(helper.exports().output).to.eql({
         path: path.resolve(process.cwd(), 'dest'),
-        filename: 'dest.js'
+        filename: '[name].js'
       });
     });
   });

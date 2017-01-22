@@ -59,10 +59,12 @@ will generate the following.
 
 ```javascript
 {
-  "entry": "./src/index.js",
+  "entry": {
+    "bundle": "./src/index.js"
+  },
   "output": {
     "path": "/full/path/to/build",
-    "filename": "bundle.js"
+    "filename": "[name].js"
   },
   "module": {
     "rules": []
@@ -71,28 +73,30 @@ will generate the following.
 }
 ```
 
-#### entry ( _path_ )
+#### entry ( _bundle_ , _path_ )
 
 Override the default entry point.  For example,
 
 ```javascript
-new Helper().entry('./src/app.js');
+new Helper().entry('app', './src/app.js');
 ```
 
 will update the config in the following way.
 
 ```javascript
 {
-  "entry": "./src/app.js"
+  "entry": {
+    "app": "./src/app.js"
+  }
 }
 ```
 
-#### output ( _directory_ , _filename_ )
+#### output ( _directory_ )
 
 Override the default output.  For example,
 
 ```javascript
-new Helper().output('dest', 'app_bundle.js')
+new Helper().output('dest')
 ```
 
 will update the config in the following way.
@@ -101,7 +105,7 @@ will update the config in the following way.
 {
   "output": {
     "path": "/full/path/to/dest",
-    "filename": "app_bundle.js"
+    "filename": "[name].js"
   }
 }
 ```

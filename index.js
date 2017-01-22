@@ -1,29 +1,30 @@
 const path = require('path');
 
-function Helper(c) {
-  if (c) {
-    this.config = c;
-  } else {
-    this.config = {};
-  }
-  this.config.entry = '';
+function Helper() {
+  this.config = {};
+  this.config.entry = {};
   this.config.output = {};
   this.config.module = {
     rules: []
   };
   this.config.plugins = [];
-  this.entry('./src/index.js');
-  this.output('build', 'bundle.js');
+  this.entry('bundle', './src/index.js');
+  this.output('build');
+  this.defaultEntry = true;
 }
 
-Helper.prototype.entry = function(path) {
-  this.config.entry = path;
+Helper.prototype.entry = function(key, path) {
+  if (this.defaultEntry) {
+    this.config.entry = {};
+    this.defaultEntry = false;
+  }
+  this.config.entry[key] = path;
   return this;
 }
 
-Helper.prototype.output = function(directory, filename) {
+Helper.prototype.output = function(directory) {
   this.config.output.path = path.resolve(process.cwd(), directory);
-  this.config.output.filename = filename;
+  this.config.output.filename = '[name].js';
   return this;
 }
 
