@@ -24,6 +24,7 @@ yarn add --dev webpack-config-helper
 It is expected that you use this in your `webpack.config.js` file.
 
 ```javascript
+const webpack = require('webpack');
 const Helper = require('webpack-config-helper');
 
 module.exports = new Helper()
@@ -42,6 +43,7 @@ module.exports = new Helper()
 * addRuleForCssAndStyle -- add a rule to support CSS and Style loaders (NOTE: requires prerequisites)
 * addRuleForExtractCss -- add a rule to support extracting CSS into a file (NOTE: requires prerequisites)
 * addRuleForImages -- add a rule to support images (NOTE: requires prerequisites)
+* addCommonsChunk -- add a plugin to support code splitting (NOTE: requires prerequisites)
 * custom -- invoke callback to allow custom changes to the config object
 * echo -- display the current state of the config object
 * exports -- return the config  object
@@ -223,7 +225,28 @@ There is a prerequisite to adding this to your config.  You need to install the 
 
 ```unix
 npm install --save-dev image-webpack-loader url-loader # for example
+```
 
+#### addCommonsChunk
+
+Add a plugin to the `plugins` for babel.  For example,
+
+```javascript
+new Helper().addCommonsChunk('vendor')
+```
+
+will push the following plugin to `plugins`.
+
+```javascript
+new webpack.optimize.CommonsChunkPlugin({
+  name: 'vendor'
+})
+```
+
+There is a prerequisite to adding this to your config.  You need to install the image and url loaders.  For example,
+
+```unix
+npm install --save-dev webpack
 ```
 
 #### echo

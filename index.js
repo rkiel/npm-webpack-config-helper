@@ -68,6 +68,15 @@ Helper.prototype.addRuleForExtractCss = function(cssName) {
   return this;
 }
 
+Helper.prototype.addCommonsChunk = function (name) {
+  var webpack = require('webpack');
+  const plugin = new webpack.optimize.CommonsChunkPlugin({
+    name: name
+  });
+  this.config.plugins.push(plugin);
+  return this;
+}
+
 Helper.prototype.custom = function(cb) {
   cb(this.config);
   return this;
