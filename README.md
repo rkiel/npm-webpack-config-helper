@@ -4,6 +4,8 @@ Utility to make it easier to construct your webpack config.  It only supports th
 
 This helper is based on the material presented in Stephen Grider's Udemy course [Webpack 2: The Complete Developer's Guide](https://www.udemy.com/webpack-2-the-complete-developers-guide/).
 
+For more information about Webpack, be sure to read the [Concepts](https://webpack.js.org/concepts/) and [Guides](https://webpack.js.org/guides/).
+
 
 ## Installation
 
@@ -24,7 +26,7 @@ yarn add --dev webpack-config-helper
 
 ## Usage
 
-It is expected that you use this in your `webpack.config.js` file.
+It is expected that you use this in your `webpack.config.js` file.  For example, to create a config that uses Babel, splits vendor code into a separate bundle, and bundles up CSS, you might using something like the following.
 
 ```javascript
 const Helper = require('webpack-config-helper');
