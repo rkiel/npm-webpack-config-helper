@@ -27,10 +27,10 @@ yarn add --dev webpack-config-helper
 It is expected that you use this in your `webpack.config.js` file.
 
 ```javascript
-const webpack = require('webpack');
 const Helper = require('webpack-config-helper');
 
 module.exports = new Helper()
+  .entryAndCommonsChunk('vendor')
   .addRuleForBabel()
   .addRuleForCssAndStyle()
   .echo()
@@ -39,18 +39,18 @@ module.exports = new Helper()
 
 ## Summary
 
-* new -- invoke the constructor to create minimal webpack config
-* entry -- override the default entry point
-* entryAndCommonsChunk -- add entry point and code splitting
-* output -- override the default output
-* addRuleForBabel -- add a rule to support Babel (NOTE: requires prerequisites)
-* addRuleForCssAndStyle -- add a rule to support CSS and Style loaders (NOTE: requires prerequisites)
-* addRuleForExtractCss -- add a rule to support extracting CSS into a file (NOTE: requires prerequisites)
-* addRuleForImages -- add a rule to support images (NOTE: requires prerequisites)
-* addCommonsChunk -- add a plugin to support code splitting (NOTE: requires prerequisites)
-* custom -- invoke callback to allow custom changes to the config object
-* echo -- display the current state of the config object
-* exports -- return the config  object
+* `new` -- invoke the constructor to create minimal webpack config
+* `entry` -- override the default entry point
+* `entryAndCommonsChunk` -- add entry point and code splitting
+* `output` -- override the default output
+* `addRuleForBabel` -- add a rule to support Babel (NOTE: requires prerequisites)
+* `addRuleForCssAndStyle` -- add a rule to support CSS and Style loaders (NOTE: requires prerequisites)
+* `addRuleForExtractCss` -- add a rule to support extracting CSS into a file (NOTE: requires prerequisites)
+* `addRuleForImages` -- add a rule to support images (NOTE: requires prerequisites)
+* `addCommonsChunk` -- add a plugin to support code splitting (NOTE: requires prerequisites)
+* `custom` -- invoke callback to allow custom changes to the config object
+* `echo` -- display the current state of the config object
+* `exports` -- return the config  object
 
 #### new
 
