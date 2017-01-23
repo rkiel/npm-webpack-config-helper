@@ -2,6 +2,9 @@
 
 Utility to make it easier to construct your webpack config.  It only supports the Webpack 2 config.
 
+This helper is based on the material presented in Stephen Grider's Udemy course [Webpack 2: The Complete Developer's Guide](https://www.udemy.com/webpack-2-the-complete-developers-guide/).
+
+
 ## Installation
 
 This module is distributed via **npm** which is bundled with **node** and should
@@ -250,6 +253,50 @@ There is a prerequisite to adding this to your config.  You need to install the 
 npm install --save-dev webpack
 ```
 
+#### entryAndCommonsChunk ( _bundle_ [, _modules_] )
+
+Add an entry point for the CommonsChunkPlugin.  You can specify the modules explicitly or have them read from `package.json`.  For example, specifying explicitly,
+
+```javascript
+new Helper().entryAndCommonsChunk('vendor', ['react', 'redux']);
+```
+
+will update the `entry` in the following way.
+
+```javascript
+{
+  "entry": {
+    "bundle": "./src/index.js",
+    "vendor": ["react", "redux"]
+  }
+}
+```
+
+and the `plugins` in the following way.
+
+```javascript
+  new webpack.optimize.CommonsChunkPlugin({
+    name: 'vendor'
+  });
+```
+
+For example, reading from `package.json`,
+
+```javascript
+new Helper().entryAndCommonsChunk('vendor');
+```
+
+
+will update the `entry` in the following way.  (Assuming that `lodash` was specified in the `dependencies` section of `package.json`)
+
+```javascript
+{
+  "entry": {
+    "bundle": "./src/index.js",
+    "vendor": ["lodash"]
+  }
+}
+```
 #### echo
 
 Display the current state of the config.  For example,

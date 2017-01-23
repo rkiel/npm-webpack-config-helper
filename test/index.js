@@ -60,7 +60,7 @@ describe('webpack-config-helper', function () {
   describe('entry', function () {
     var helper;
 
-    before(function () {
+    beforeEach(function () {
       helper = new Helper();
     })
 
@@ -80,7 +80,7 @@ describe('webpack-config-helper', function () {
   describe('output', function () {
     var helper;
 
-    before(function () {
+    beforeEach(function () {
       helper = new Helper();
     })
 
@@ -96,7 +96,7 @@ describe('webpack-config-helper', function () {
   describe('addRuleForBabel', function() {
     var helper;
 
-    before(function () {
+    beforeEach(function () {
       helper = new Helper();
     })
 
@@ -114,7 +114,7 @@ describe('webpack-config-helper', function () {
   describe('addRuleForCssAndStyle', function() {
     var helper;
 
-    before(function () {
+    beforeEach(function () {
       helper = new Helper();
     })
 
@@ -131,7 +131,7 @@ describe('webpack-config-helper', function () {
   describe('addRuleForExtractCss', function() {
     var helper;
 
-    before(function () {
+    beforeEach(function () {
       helper = new Helper();
     })
 
@@ -148,7 +148,7 @@ describe('webpack-config-helper', function () {
   describe('addRuleForImages', function() {
     var helper;
 
-    before(function () {
+    beforeEach(function () {
       helper = new Helper();
     })
 
@@ -171,7 +171,7 @@ describe('webpack-config-helper', function () {
   describe('addCommonsChunk', function() {
     var helper;
 
-    before(function () {
+    beforeEach(function () {
       helper = new Helper();
     })
 
@@ -185,5 +185,54 @@ describe('webpack-config-helper', function () {
     });
   });
 
+  describe('entryAndCommonsChunk', function() {
+    var helper, name, modules;
+    beforeEach(function () {
+      helper = new Helper();
+    })
+    beforeEach(function() {
+      name = 'vendor'
+    });
+
+    describe('when there are modules', function() {
+      beforeEach(function() {
+        modules = ['react', 'redux'];
+      });
+
+      it('should add a entry and CommonsChunkPlugin', function() {
+        var exports = helper
+          .entryAndCommonsChunk(name,modules)
+          .exports();
+        expect(exports.entry).to.eql({
+          "bundle": "./src/index.js",
+          "vendor": ["react", "redux"]
+        });
+      });
+    });
+    describe('when there are no modules', function() {
+      beforeEach(function() {
+        modules = undefined;
+      });
+      it('should add a entry and CommonsChunkPlugin', function() {
+        var exports = helper
+          .entryAndCommonsChunk(name,modules)
+          .exports();
+        expect(exports.entry).to.eql({
+          "bundle": "./src/index.js",
+          "vendor": []
+        });
+      });
+      it('should add a entry and CommonsChunkPlugin', function() {
+        var exports = helper
+          .entry('app', './src/app.js')
+          .entryAndCommonsChunk(name,modules)
+          .exports();
+        expect(exports.entry).to.eql({
+          "app": "./src/app.js",
+          "vendor": []
+        });
+      });
+    });
+  });
 
 });

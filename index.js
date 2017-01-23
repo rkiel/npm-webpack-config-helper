@@ -78,13 +78,14 @@ Helper.prototype.addCommonsChunk = function (name) {
 }
 
 Helper.prototype.entryAndCommonsChunk = function (name, modules) {
+  this.defaultEntry = false;
   if (modules) {
     this.entry(name, modules);
   } else {
     var fs = require('fs');
     const content = fs.readFileSync(path.resolve(process.cwd(), 'package.json'));
     const packageJson = JSON.parse(content);
-    this.entry(name, Object.keys(packageJson.dependencies));
+    this.entry(name, Object.keys(packageJson.dependencies||[]));
   }
   this.addCommonsChunk(name);
   return this;
