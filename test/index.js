@@ -168,6 +168,23 @@ describe('webpack-config-helper', function () {
     });
   });
 
+  describe('addHtmlWebpackPlugin', function() {
+    var helper;
+
+    beforeEach(function () {
+      helper = new Helper();
+    })
+
+    it('should work', function() {
+      var exports = helper.addHtmlWebpackPlugin().exports();
+      var rules = exports.module.rules;
+      var plugins = exports.plugins;
+
+      expect(rules.length).to.eql(0);
+      expect(plugins.length).to.eql(1);
+    });
+  });
+
   describe('addCommonsChunk', function() {
     var helper;
 

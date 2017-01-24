@@ -50,6 +50,7 @@ module.exports = new Helper()
 * `addRuleForExtractCss` -- add a rule to support extracting CSS into a file (NOTE: requires prerequisites)
 * `addRuleForImages` -- add a rule to support images (NOTE: requires prerequisites)
 * `addCommonsChunk` -- add a plugin to support code splitting (NOTE: requires prerequisites)
+* `addHtmlWebpackPlugin` -- add a plugin to support creating top-level html file (NOTE: requires prerequisites)
 * `custom` -- invoke callback to allow custom changes to the config object
 * `echo` -- display the current state of the config object
 * `exports` -- return the config  object
@@ -233,6 +234,45 @@ There is a prerequisite to adding this to your config.  You need to install the 
 npm install --save-dev image-webpack-loader url-loader # for example
 ```
 
+#### addHtmlWebpackPlugin ( [_options_] )
+
+To add the html webpack plugin with a default template to `plgins` for .  For example,
+
+```javascript
+new Helper().addHtmlWebpackPlugin()
+```
+
+will push the following plugin to `plugins`
+
+```javascript
+new HtmlWebpackPlugin({
+  template: './src/index.html',
+  inject: 'body'
+})
+```
+
+You can also pass an options object to customize the plugin.  For example,
+
+```javascript
+new Helper().addHtmlWebpackPlugin({
+  template: './assets/index.html'
+})
+```
+
+will push the following plugin to `plugins`
+
+```javascript
+new HtmlWebpackPlugin({
+  template: './assets/index.html'
+})
+```
+
+There is a prerequisite to adding this to your config.  You need to install the html webpack plugin.  For example,
+
+```unix
+npm install --save-dev html-webpack-plugin # for example
+```
+
 #### addCommonsChunk
 
 Add a plugin to the `plugins` for babel.  For example,
@@ -300,7 +340,7 @@ will update the `entry` in the following way.  (Assuming that `lodash` was speci
 }
 ```
 
-#### custom ( config )
+#### custom ( _config_ )
 
 This helper covers the basics.  There is no way to handle all possible cases.  So the `custom` method gives you a chance
 to add whatever additional configurations you need.  For example,
