@@ -235,4 +235,30 @@ describe('webpack-config-helper', function () {
     });
   });
 
+  describe('custom', function() {
+    var helper;
+    beforeEach(function () {
+      helper = new Helper();
+    })
+
+    it('should allow custom rule', function() {
+      var exports = helper.custom(function(config) {
+        config.module.rules.push('{rule}');
+      }).exports();
+
+      expect(exports.module.rules).to.eql(['{rule}']);
+    });
+    it('should allow custom entry', function() {
+      var exports = helper.custom(function(config) {
+        config.entry.app =  './src/app.js';
+      }).exports();
+
+      expect(exports.entry).to.eql({
+        "app": "./src/app.js",
+        "bundle": "./src/index.js"
+      });
+    });
+
+  });
+
 });

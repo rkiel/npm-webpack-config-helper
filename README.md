@@ -299,6 +299,24 @@ will update the `entry` in the following way.  (Assuming that `lodash` was speci
   }
 }
 ```
+
+#### custom ( config )
+
+This helper covers the basics.  There is no way to handle all possible cases.  So the `custom` method gives you a chance
+to add whatever additional configurations you need.  For example,
+
+```javascript
+new Helper().custom(function(config) {
+  var SomeJsPlugin = require('some-js-plugin');
+
+  config.module.rules.push({
+    use: 'some-js-loader'
+    test: /\.js$/
+  });
+  config.plugin.push(new SomeJsPlugin());
+});
+```
+
 #### echo
 
 Display the current state of the config.  For example,
