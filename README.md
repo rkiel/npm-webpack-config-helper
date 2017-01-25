@@ -383,6 +383,27 @@ Return the final state of the config. For example,
 module.exports = new Helper().addRuleForBabel().exports();
 ```
 
+## Other helpful things
+
+#### Scripts
+
+Add the following scripts to your `package.json`.
+
+```json
+"scripts": {
+   "clean": "rm -rf build dist",
+   "start": "npm run clean && webpack-dev-server --host 192.168.33.60 --port 3000",
+   "build": "npm run clean && webpack --progress"
+ },
+```
+
+#### webpack-dev-server
+
+Install the webpack-dev-server.
+
+```unix
+npm install --save-dev webpack-dev-server
+```
 
 ## LICENSE
 
