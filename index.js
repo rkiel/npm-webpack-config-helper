@@ -24,7 +24,7 @@ Helper.prototype.entry = function(key, path) {
 
 Helper.prototype.output = function(directory) {
   this.config.output.path = path.resolve(process.cwd(), directory);
-  this.config.output.filename = '[name].js';
+  this.config.output.filename = '[name].[chunkhash].js';
   return this;
 }
 
@@ -82,7 +82,7 @@ Helper.prototype.addHtmlWebpackPlugin = function(overrideOptions) {
 Helper.prototype.addCommonsChunk = function (name) {
   var webpack = require('webpack');
   const plugin = new webpack.optimize.CommonsChunkPlugin({
-    name: name
+    names: [name, 'manifest']
   });
   this.config.plugins.push(plugin);
   return this;

@@ -73,7 +73,7 @@ will generate the following.
   },
   "output": {
     "path": "/full/path/to/build",
-    "filename": "[name].js"
+    "filename": "[name].[chunkhash].js"
   },
   "module": {
     "rules": []
@@ -114,7 +114,7 @@ will update the config in the following way.
 {
   "output": {
     "path": "/full/path/to/dest",
-    "filename": "[name].js"
+    "filename": "[name].[chunkhash].js"
   }
 }
 ```
@@ -285,7 +285,7 @@ will push the following plugin to `plugins`.
 
 ```javascript
 new webpack.optimize.CommonsChunkPlugin({
-  name: 'vendor'
+  names: ['vendor', 'manifest']
 })
 ```
 
@@ -318,7 +318,7 @@ and the `plugins` in the following way.
 
 ```javascript
   new webpack.optimize.CommonsChunkPlugin({
-    name: 'vendor'
+    names: ['vendor', 'manifest']
   });
 ```
 

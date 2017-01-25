@@ -13,7 +13,7 @@ describe('webpack-config-helper', function () {
           bundle: './src/index.js'
         },
         output: {
-          filename: '[name].js',
+          filename: '[name].[chunkhash].js',
           path: path.resolve(__dirname, '..', 'build')
         },
         module: {
@@ -32,7 +32,7 @@ describe('webpack-config-helper', function () {
           begin: './src/begin.js'
         },
         output: {
-          filename: '[name].js',
+          filename: '[name].[chunkhash].js',
           path: path.resolve(__dirname, '..', 'build')
         },
         module: {
@@ -45,7 +45,7 @@ describe('webpack-config-helper', function () {
           start: './src/start.js'
         },
         output: {
-          filename: '[name].js',
+          filename: '[name].[chunkhash].js',
           path: path.resolve(__dirname, '..', 'build')
         },
         module: {
@@ -88,7 +88,7 @@ describe('webpack-config-helper', function () {
       helper.output('dest', 'dest.js')
       expect(helper.exports().output).to.eql({
         path: path.resolve(process.cwd(), 'dest'),
-        filename: '[name].js'
+        filename: '[name].[chunkhash].js'
       });
     });
   });
