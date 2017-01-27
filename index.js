@@ -1,6 +1,7 @@
 const path = require('path');
 
-function Helper() {
+function Helper(env) {
+  this.env = env;
   this.config = {};
   this.config.entry = {};
   this.config.output = {};
@@ -10,6 +11,7 @@ function Helper() {
   this.config.plugins = [];
   this.entry('bundle', './src/index.js');
   this.output('build');
+  this.addEnvironment();
   this.defaultEntry = true;
 }
 
@@ -135,6 +137,26 @@ Helper.prototype.addRuleForImages = function() {
   };
   this.config.module.rules.push(rule);
   return this;
+}
+
+// window scope variables
+// NODE_ENV is used by React
+Helper.prototype.addEnvironment = function() {
+  var webpack = require('webpack');
+  this.config.plugins.push(new webpack.DefinePlugin({
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+  }));
+  return this;
+}
+
+Helper.use = function(cb) {
+  return function(env) {
+    var helper = new Helper(env);
+    if (cb) {
+      cb(helper);
+    }
+    return helper.exports();
+  }
 }
 
 module.exports = Helper;

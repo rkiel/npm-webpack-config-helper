@@ -31,17 +31,20 @@ It is expected that you use this in your `webpack.config.js` file.  For example,
 ```javascript
 const Helper = require('webpack-config-helper');
 
-module.exports = new Helper()
+function buildConfig(config) {
+  config
   .entryAndCommonsChunk('vendor')
   .addRuleForBabel()
   .addRuleForCssAndStyle()
-  .echo()
-  .exports()
+  .echo();
+}
+
+module.exports = Helper.use(buildConfig);
 ```
 
 ## Summary
 
-* `new` -- invoke the constructor to create minimal webpack config
+* `use` -- invoke the constructor to create minimal webpack config
 * `entry` -- override the default entry point
 * `entryAndCommonsChunk` -- add entry point and code splitting
 * `output` -- override the default output
@@ -51,17 +54,23 @@ module.exports = new Helper()
 * `addRuleForImages` -- add a rule to support images (NOTE: requires prerequisites)
 * `addCommonsChunk` -- add a plugin to support code splitting (NOTE: requires prerequisites)
 * `addHtmlWebpackPlugin` -- add a plugin to support creating top-level html file (NOTE: requires prerequisites)
+* `addEnvironment` -- add NODE_ENV as a window scope variable for React (called by `use`)
 * `custom` -- invoke callback to allow custom changes to the config object
 * `echo` -- display the current state of the config object
 * `exports` -- return the config  object
 
-#### new
+#### use ( _callback_ )
 
-The constructor creates a minimal webpack configuration choosing defaults for `entry` and `output`.
+The `use` factory method creates a minimal webpack configuration choosing defaults for `entry` and `output`.
+The options _callback_ function takes an instance of the Helper.
 
 ```javascript
 const Helper = require('webpack-config-helper');
-new Helper();
+
+function buildConfig(config) {
+}
+
+module.exports = Helper.use(buildConfig);
 ```
 
 will generate the following.
@@ -87,7 +96,9 @@ will generate the following.
 Override the default entry point.  For example,
 
 ```javascript
-new Helper().entry('app', './src/app.js');
+function buildConfig(config) {
+  config.entry('app', './src/app.js');
+}
 ```
 
 will update the config in the following way.
@@ -357,6 +368,22 @@ new Helper().custom(function(config) {
 });
 ```
 
+#### addEnvironment
+
+This method is called by `new`.  No need to invoke it explicitly.
+
+```javascript
+new Helper()
+```
+
+and will add this plugin to `plugins` in the following way.
+
+```javascript
+new webpack.DefinePlugin({
+  'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+});
+```
+
 #### echo
 
 Display the current state of the config.  For example,
@@ -393,7 +420,7 @@ Add the following scripts to your `package.json`.
 "scripts": {
    "clean": "rm -rf build dist",
    "start": "npm run clean && webpack-dev-server --host 192.168.33.60 --port 3000",
-   "build": "npm run clean && webpack --progress"
+   "build": "NODE_ENV=production npm run clean && webpack --progress -p"
  },
 ```
 
