@@ -11,7 +11,6 @@ function Helper(env) {
   this.config.plugins = [];
   this.entry('bundle', './src/index.js');
   this.output('build');
-  this.addEnvironment();
   this.defaultEntry = true;
 }
 
@@ -144,7 +143,7 @@ Helper.prototype.addRuleForImages = function() {
 Helper.prototype.addEnvironment = function() {
   var webpack = require('webpack');
   this.config.plugins.push(new webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    'process.env.NODE_ENV': JSON.stringify(this.env||process.env.NODE_ENV)
   }));
   return this;
 }

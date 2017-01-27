@@ -54,7 +54,7 @@ module.exports = Helper.use(buildConfig);
 * `addRuleForImages` -- add a rule to support images (NOTE: requires prerequisites)
 * `addCommonsChunk` -- add a plugin to support code splitting (NOTE: requires prerequisites)
 * `addHtmlWebpackPlugin` -- add a plugin to support creating top-level html file (NOTE: requires prerequisites)
-* `addEnvironment` -- add NODE_ENV as a window scope variable for React (called by `use`)
+* `addEnvironment` -- add the `webpack --env` value or the `process.env.NODE_ENV` as a window scope variable for React
 * `custom` -- invoke callback to allow custom changes to the config object
 * `echo` -- display the current state of the config object
 
@@ -376,32 +376,48 @@ This helper covers the basics.  There is no way to handle all possible cases.  S
 to add whatever additional configurations you need.  For example,
 
 ```javascript
-function buildConfig(helper) {
-  helper.custom(function(config) {
-    var SomeJsPlugin = require('some-js-plugin');
+function customize(config) {
+  var SomeJsPlugin = require('some-js-plugin');
 
-    config.module.rules.push({
-      use: 'some-js-loader'
-      test: /\.js$/
-    });
-    config.plugin.push(new SomeJsPlugin());
+  config.module.rules.push({
+    use: 'some-js-loader'
+    test: /\.js$/
   });
+  config.plugin.push(new SomeJsPlugin());
+}
+
+function buildConfig(config) {
+  config.custom(customize);
 }
 ```
 
 #### addEnvironment
 
-This method is called by `use`.  No need to invoke it explicitly.
+Add an environment to the window scope.
 
 ```javascript
-module.exports = Helper.use(buildConfig);
+function buildConfig(config) {
+  config.addEnvironment();
+}
 ```
 
-and will add this plugin to `plugins` in the following way.
+For example, using `--env`.
+
+```unix
+webpack --env=production
+```
+
+or using `NODE_ENV`
+
+```unix
+NODE_ENV=production webpack
+```
+
+will add this plugin to `plugins` in the following way.
 
 ```javascript
 new webpack.DefinePlugin({
-  'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+  'process.env.NODE_ENV': 'production'
 });
 ```
 
