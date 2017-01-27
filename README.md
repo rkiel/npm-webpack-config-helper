@@ -57,7 +57,6 @@ module.exports = Helper.use(buildConfig);
 * `addEnvironment` -- add NODE_ENV as a window scope variable for React (called by `use`)
 * `custom` -- invoke callback to allow custom changes to the config object
 * `echo` -- display the current state of the config object
-* `exports` -- return the config  object
 
 #### use ( _callback_ )
 
@@ -116,7 +115,9 @@ will update the config in the following way.
 Override the default output.  For example,
 
 ```javascript
-new Helper().output('dest')
+function buildConfig(config) {
+  config.output('dest');
+}
 ```
 
 will update the config in the following way.
@@ -135,7 +136,9 @@ will update the config in the following way.
 Add a rule to the `module.rules` for Babel.  For example,
 
 ```javascript
-new Helper().addRuleForBabel()
+function buildConfig(config) {
+  config.addRuleForBabel();
+}
 ```
 
 will push the following rule to `module.rules`.
@@ -167,7 +170,9 @@ And second, you need to create a `.babelrc` file.  For example,
 Add a rule to the `module.rules` for babel.  For example,
 
 ```javascript
-new Helper().addRuleForCssAndStyle()
+function buildConfig(config) {
+  config.addRuleForCssAndStyle();
+}
 ```
 
 will push the following rule to `module.rules`.
@@ -190,7 +195,9 @@ npm install --save-dev style-loader css-loader # for example
 Add a rule to the `module.rules` for babel.  For example,
 
 ```javascript
-new Helper().addRuleForExtractCss()
+function buildConfig(config) {
+  config.addRuleForExtractCss();
+}
 ```
 
 will push the following rule to `module.rules`.
@@ -221,7 +228,9 @@ npm install --save-dev css-loader extract-text-webpack-plugin # for example
 Add a rule to the `module.rules` for babel.  For example,
 
 ```javascript
-new Helper().addRuleForImages()
+function buildConfig(config) {
+  config.addRuleForImages();
+}
 ```
 
 will push the following rule to `module.rules`.
@@ -250,7 +259,9 @@ npm install --save-dev image-webpack-loader url-loader # for example
 To add the html webpack plugin with a default template to `plgins` for .  For example,
 
 ```javascript
-new Helper().addHtmlWebpackPlugin()
+function buildConfig(config) {
+  config.addHtmlWebpackPlugin();
+}
 ```
 
 will push the following plugin to `plugins`
@@ -265,9 +276,11 @@ new HtmlWebpackPlugin({
 You can also pass an options object to customize the plugin.  For example,
 
 ```javascript
-new Helper().addHtmlWebpackPlugin({
-  template: './assets/index.html'
-})
+function buildConfig(config) {
+  config.addHtmlWebpackPlugin({
+    template: './assets/index.html'
+  });
+}
 ```
 
 will push the following plugin to `plugins`
@@ -289,7 +302,9 @@ npm install --save-dev html-webpack-plugin # for example
 Add a plugin to the `plugins` for babel.  For example,
 
 ```javascript
-new Helper().addCommonsChunk('vendor')
+function buildConfig(config) {
+  config.addCommonsChunk('vendor');
+}
 ```
 
 will push the following plugin to `plugins`.
@@ -311,7 +326,9 @@ npm install --save-dev webpack
 Add an entry point for the CommonsChunkPlugin.  You can specify the modules explicitly or have them read from `package.json`.  For example, specifying explicitly,
 
 ```javascript
-new Helper().entryAndCommonsChunk('vendor', ['react', 'redux']);
+function buildConfig(config) {
+  config.entryAndCommonsChunk('vendor', ['react', 'redux']);
+}
 ```
 
 will update the `entry` in the following way.
@@ -336,7 +353,9 @@ and the `plugins` in the following way.
 For example, reading from `package.json`,
 
 ```javascript
-new Helper().entryAndCommonsChunk('vendor');
+function buildConfig(config) {
+  config.entryAndCommonsChunk('vendor');
+}
 ```
 
 
@@ -357,23 +376,25 @@ This helper covers the basics.  There is no way to handle all possible cases.  S
 to add whatever additional configurations you need.  For example,
 
 ```javascript
-new Helper().custom(function(config) {
-  var SomeJsPlugin = require('some-js-plugin');
+function buildConfig(helper) {
+  helper.custom(function(config) {
+    var SomeJsPlugin = require('some-js-plugin');
 
-  config.module.rules.push({
-    use: 'some-js-loader'
-    test: /\.js$/
+    config.module.rules.push({
+      use: 'some-js-loader'
+      test: /\.js$/
+    });
+    config.plugin.push(new SomeJsPlugin());
   });
-  config.plugin.push(new SomeJsPlugin());
-});
+}
 ```
 
 #### addEnvironment
 
-This method is called by `new`.  No need to invoke it explicitly.
+This method is called by `use`.  No need to invoke it explicitly.
 
 ```javascript
-new Helper()
+module.exports = Helper.use(buildConfig);
 ```
 
 and will add this plugin to `plugins` in the following way.
@@ -389,26 +410,22 @@ new webpack.DefinePlugin({
 Display the current state of the config.  For example,
 
 ```javascript
-new Helper().addRuleForBabel().echo()
+function buildConfig(config) {
+  config.addRuleForBabel().echo();
+}
 ```
 
 will display the config showing the `entry`, `output`, and `module.rules` for Babel.
 You can display the config multiple times to see how it changes.  For example,
 
 ```javascript
-new Helper().echo().addRuleForBabel().echo()
+function buildConfig(config) {
+  config.echo().addRuleForBabel().echo();
+}
 ```
 
 will display the config at two different points in time.
 
-
-#### exports
-
-Return the final state of the config. For example,
-
-```javascript
-module.exports = new Helper().addRuleForBabel().exports();
-```
 
 ## Other helpful things
 
