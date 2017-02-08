@@ -17,14 +17,6 @@ For more information about Webpack, be sure to read the [Concepts](https://webpa
 This module is distributed via **npm** which is bundled with **node** and should
 be installed as one of your project's `devDependencies`:
 
-Using npm
-
-```
-npm install --save-dev webpack-config-helper
-```
-
-or yarn
-
 ```
 yarn add --dev webpack-config-helper
 ```
@@ -164,6 +156,12 @@ There are two prerequisites to adding this to your config.  First, you need to i
 
 ```unix
 npm install --save-dev babel-loader babel-core babel-preset-env  # for example
+yarn add --dev babel-core
+yarn add --dev babel-loader
+yarn add --dev babel-preset-es2015
+yarn add --dev babel-preset-react
+# yarn add --dev babel-preset-stage-0
+# yarn add --dev babel-preset-env
 ```
 
 And second, you need to create a `.babelrc` file.  For example,
@@ -171,6 +169,12 @@ And second, you need to create a `.babelrc` file.  For example,
 ```json
 {
   "presets": ["babel-preset-env"]
+}
+```
+
+```json
+{
+  "presets": ["react"]
 }
 ```
 
@@ -311,7 +315,7 @@ new HtmlWebpackPlugin({
 There is a prerequisite to adding this to your config.  You need to install the html webpack plugin.  For example,
 
 ```unix
-npm install --save-dev html-webpack-plugin # for example
+yarn add --dev html-webpack-plugin
 ```
 
 #### addCommonsChunk

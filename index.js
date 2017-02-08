@@ -37,7 +37,7 @@ Helper.prototype.addPublicPath = function() {
 Helper.prototype.addRuleForBabel = function () {
   const rule = {
     use: 'babel-loader',
-    test: /\.js$/,
+    test: /\.jsx?$/,
     exclude: "/node_modules/"
   };
   this.config.module.rules.push(rule);
