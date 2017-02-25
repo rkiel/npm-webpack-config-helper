@@ -88,7 +88,7 @@ will generate the following.
   "plugins": []
 }
 ```
-
+  
 #### entry ( _bundle_ , _path_ )
 
 Add a named entry point.
