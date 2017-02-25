@@ -55,15 +55,13 @@ Helper.prototype.addRuleForCssAndStyle = function() {
 }
 
 Helper.prototype.addRuleForExtractCss = function(cssName) {
-  var name = cssName || 'style.css';
+  var name = cssName || '[name].[contenthash].css';
   const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
   const rule = {
     use: ExtractTextPlugin.extract({
       fallback: 'style-loader',
-      use: 'css-loader',
-      filname: '[name].[contenthash].css',
-      module: true
+      use: 'css-loader'
     }),
     test: /\.css$/
   }
