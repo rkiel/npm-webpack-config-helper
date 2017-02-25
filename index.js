@@ -61,7 +61,7 @@ Helper.prototype.addRuleForExtractCss = function(cssName) {
   const rule = {
     use: ExtractTextPlugin.extract({
       fallback: 'style-loader',
-      use: 'css-loader'
+      use: 'css-loader?modules&localIdentName=[path][name]_[local]_[hash:base64:5]'
     }),
     test: /\.css$/
   }
