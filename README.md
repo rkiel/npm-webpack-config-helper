@@ -30,9 +30,11 @@ const Helper = require('webpack-config-helper');
 
 function buildConfig(config) {
   config
+  .entry('bundle', './src/index.jsx')
   .entryAndCommonsChunk('vendor')
   .addRuleForBabel()
   .addRuleForCssAndStyle()
+  .addHtmlWebpackPlugin()
   .echo();
 }
 
@@ -128,9 +130,9 @@ will update the config in the following way.
 }
 ```
 
-#### addRuleForBabel
+#### addRuleForBabel ( _overridePattern_ )
 
-Add a rule to the `module.rules` for Babel.  For example,
+Add a rule to the `module.rules` for Babel.  By default, the file test pattern includes both `.js` and `.jsx`.  You can optionally pass in an override pattern. For example,
 
 ```javascript
 function buildConfig(config) {
@@ -143,19 +145,14 @@ will push the following rule to `module.rules`.
 ```javascript
 {
   use: 'babel-loader',
-  test: /\.js$/,
+  test: /\.jsx?$/,
   exclude: "/node_modules/"
 }
 ```
 
 There are two prerequisites to adding this to your config.  First, you need to install Babel.  For example,
 
-* `babel-loader` - teaches Babel how to work with Webpack (compatibility layer)
-* `babel-core` - knows how to take in code, parse it, and generate some output files
-* `babel-preset-env` - ruleset for telling Babel exactly what pieces of ES2015/16/17 syntax to look for and how to turn it into ES2015
-
 ```unix
-npm install --save-dev babel-loader babel-core babel-preset-env  # for example
 yarn add --dev babel-core
 yarn add --dev babel-loader
 yarn add --dev babel-preset-es2015
@@ -164,17 +161,14 @@ yarn add --dev babel-preset-react
 # yarn add --dev babel-preset-env
 ```
 
+* `babel-loader` - teaches Babel how to work with Webpack (compatibility layer)
+* `babel-core` - knows how to take in code, parse it, and generate some output files
+
 And second, you need to create a `.babelrc` file.  For example,
 
 ```json
 {
-  "presets": ["babel-preset-env"]
-}
-```
-
-```json
-{
-  "presets": ["react"]
+  "presets": ["react", "es2015"]
 }
 ```
 

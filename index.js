@@ -14,12 +14,12 @@ function Helper(env) {
   this.defaultEntry = true;
 }
 
-Helper.prototype.entry = function(key, path) {
+Helper.prototype.entry = function(bundleName, entryPath) {
   if (this.defaultEntry) {
     this.config.entry = {};
     this.defaultEntry = false;
   }
-  this.config.entry[key] = path;
+  this.config.entry[bundleName] = entryPath;
   return this;
 }
 
@@ -34,10 +34,11 @@ Helper.prototype.addPublicPath = function() {
   return this;
 }
 
-Helper.prototype.addRuleForBabel = function () {
+Helper.prototype.addRuleForBabel = function (overridePattern) {
+  const pattern = overridePattern || /\.jsx?$/;
   const rule = {
     use: 'babel-loader',
-    test: /\.jsx?$/,
+    test: pattern,
     exclude: "/node_modules/"
   };
   this.config.module.rules.push(rule);
