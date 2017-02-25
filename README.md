@@ -91,7 +91,10 @@ will generate the following.
 
 #### entry ( _bundle_ , _path_ )
 
-Override the default entry point.  For example,
+Add a named entry point.
+The first use of `entry` will override the default named entry point `bundle` to path `./src/index.js`.
+Additional uses of `entry` add additional named entry points.
+For example,
 
 ```javascript
 function buildConfig(config) {
