@@ -45,7 +45,7 @@ Helper.prototype.addRuleForBabel = function (overridePattern) {
   return this;
 }
 
-Helper.prototype.addRuleForCssAndStyle = function() {
+Helper.prototype.addRuleForInlineCssModules = function() {
   const rule = {
     use: ['style-loader', 'css-loader?modules&localIdentName=[path][name]_[local]_[hash:base64:5]'],
     test: /\.css$/
@@ -54,7 +54,7 @@ Helper.prototype.addRuleForCssAndStyle = function() {
   return this;
 }
 
-Helper.prototype.addRuleForExtractCss = function(cssName) {
+Helper.prototype.addRuleForExtractCssModules = function(cssName) {
   var name = cssName || '[name].[contenthash].css';
   const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
