@@ -33,7 +33,7 @@ function buildConfig(config) {
   .entry('bundle', './src/index.jsx')
   .entryAndCommonsChunk('vendor')
   .addRuleForBabel()
-  .addRuleForInlineCssModules()
+  .addRuleForExtractCssModules()
   .addHtmlWebpackPlugin()
   .echo();
 }
@@ -189,7 +189,7 @@ will push the following rule to `module.rules`.
 
 ```javascript
 {
-  use: ['style-loader', 'css-loader'],
+  use: ['style-loader', 'css-loader?modules&localIdentName=[path][name]_[local]_[hash:base64:5]'],
   test: /\.css$/
 }
 ```
