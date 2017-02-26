@@ -47,7 +47,7 @@ Helper.prototype.addRuleForBabel = function (overridePattern) {
 
 Helper.prototype.addRuleForCssAndStyle = function() {
   const rule = {
-    use: ['style-loader', 'css-loader'], // applied from right to left
+    use: ['style-loader', 'css-loader?modules&localIdentName=[path][name]_[local]_[hash:base64:5]'
     test: /\.css$/
   }
   this.config.module.rules.push(rule);
