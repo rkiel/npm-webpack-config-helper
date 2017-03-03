@@ -9,17 +9,17 @@ function Helper(env) {
     rules: []
   };
   this.config.plugins = [];
-  this.entry('bundle', './src/index.js');
+  this.entry('./src/index.js', 'bundle');
   this.output('build');
   this.defaultEntry = true;
 }
 
-Helper.prototype.entry = function(bundleName, entryPath) {
+Helper.prototype.entry = function(entryPath, bundleName) {
   if (this.defaultEntry) {
     this.config.entry = {};
     this.defaultEntry = false;
   }
-  this.config.entry[bundleName] = entryPath;
+  this.config.entry[bundleName||'bundle'] = entryPath;
   return this;
 }
 
@@ -94,12 +94,12 @@ Helper.prototype.addCommonsChunk = function (name) {
 Helper.prototype.entryAndCommonsChunk = function (name, modules) {
   this.defaultEntry = false;
   if (modules) {
-    this.entry(name, modules);
+    this.entry(modules, name);
   } else {
     var fs = require('fs');
     const content = fs.readFileSync(path.resolve(process.cwd(), 'package.json'));
     const packageJson = JSON.parse(content);
-    this.entry(name, Object.keys(packageJson.dependencies||[]));
+    this.entry(Object.keys(packageJson.dependencies||[]), name);
   }
   this.addCommonsChunk(name);
   return this;

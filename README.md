@@ -30,7 +30,7 @@ const wpConfig = require('webpack-config-helper');
 
 function customizer(config) {
   config
-  .entry('bundle', './src/index.jsx')
+  .entry('./src/index.jsx', 'bundle')
   .entryAndCommonsChunk('vendor')
   .addRuleForBabel()
   .addRuleForExtractCssModules()
@@ -60,15 +60,15 @@ module.exports = wpConfig.generate(customizer);
 #### generate ( _callback_ )
 
 The `generate` factory method creates a minimal webpack configuration choosing defaults for `entry` and `output`.
-The options _callback_ function takes an instance of the Helper.
+The options _callback_ function takes an instance of the wpConfig.
 
 ```javascript
-const Helper = require('webpack-config-helper');
+const wpConfig = require('webpack-config-helper');
 
 function customizer(config) {
 }
 
-module.exports = Helper.generate(customizer);
+module.exports = wpConfig.generate(customizer);
 ```
 
 will generate the following.
@@ -89,7 +89,7 @@ will generate the following.
 }
 ```
 
-#### entry ( _bundle_ , _path_ )
+#### entry ( _path_ , _bundle_ )
 
 Add a named entry point.
 The first use of `entry` will override the default named entry point `bundle` to path `./src/index.js`.
@@ -98,7 +98,7 @@ For example,
 
 ```javascript
 function customizer(config) {
-  config.entry('app', './src/app.js');
+  config.entry('./src/app.js', 'app');
 }
 ```
 
