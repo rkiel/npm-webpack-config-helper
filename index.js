@@ -150,7 +150,7 @@ Helper.prototype.addEnvironment = function() {
   return this;
 }
 
-Helper.use = function(cb) {
+Helper.generate = function(cb) {
   return function(env) {
     var helper = new Helper(env);
     if (cb) {

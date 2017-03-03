@@ -26,9 +26,9 @@ yarn add --dev webpack-config-helper
 It is expected that you use this in your `webpack.config.js` file.  For example, to create a config that uses Babel, splits vendor code into a separate bundle, and bundles up CSS, you might using something like the following.
 
 ```javascript
-const Helper = require('webpack-config-helper');
+const wpConfig = require('webpack-config-helper');
 
-function buildConfig(config) {
+function customizer(config) {
   config
   .entry('bundle', './src/index.jsx')
   .entryAndCommonsChunk('vendor')
@@ -38,12 +38,12 @@ function buildConfig(config) {
   .echo();
 }
 
-module.exports = Helper.use(buildConfig);
+module.exports = wpConfig.generate(customizer);
 ```
 
 ## Summary
 
-* `use` -- invoke the constructor to create minimal webpack config
+* `generate` -- generate a minimal webpack config and allow for customization
 * `entry` -- override the default entry point
 * `entryAndCommonsChunk` -- add entry point and code splitting
 * `output` -- override the default output
@@ -57,18 +57,18 @@ module.exports = Helper.use(buildConfig);
 * `custom` -- invoke callback to allow custom changes to the config object
 * `echo` -- display the current state of the config object
 
-#### use ( _callback_ )
+#### generate ( _callback_ )
 
-The `use` factory method creates a minimal webpack configuration choosing defaults for `entry` and `output`.
+The `generate` factory method creates a minimal webpack configuration choosing defaults for `entry` and `output`.
 The options _callback_ function takes an instance of the Helper.
 
 ```javascript
 const Helper = require('webpack-config-helper');
 
-function buildConfig(config) {
+function customizer(config) {
 }
 
-module.exports = Helper.use(buildConfig);
+module.exports = Helper.generate(customizer);
 ```
 
 will generate the following.
@@ -97,7 +97,7 @@ Additional uses of `entry` add additional named entry points.
 For example,
 
 ```javascript
-function buildConfig(config) {
+function customizer(config) {
   config.entry('app', './src/app.js');
 }
 ```
@@ -117,7 +117,7 @@ will update the config in the following way.
 Override the default output.  For example,
 
 ```javascript
-function buildConfig(config) {
+function customizer(config) {
   config.output('dest');
 }
 ```
@@ -138,7 +138,7 @@ will update the config in the following way.
 Add a rule to the `module.rules` for Babel.  By default, the file test pattern includes both `.js` and `.jsx`.  You can optionally pass in an override pattern. For example,
 
 ```javascript
-function buildConfig(config) {
+function customizer(config) {
   config.addRuleForBabel();
 }
 ```
@@ -180,7 +180,7 @@ And second, you need to create a `.babelrc` file.  For example,
 Inject CSS modules into the `head` tag using a `style` tag.  Add a rule to the `module.rules` for babel.  For example,
 
 ```javascript
-function buildConfig(config) {
+function customizer(config) {
   config.addRuleForInlineCssModules();
 }
 ```
@@ -207,7 +207,7 @@ npm install --save-dev style-loader css-loader # for example
 Extract CSS modules into a file.  Add a rule to the `module.rules` for babel.  For example,
 
 ```javascript
-function buildConfig(config) {
+function customizer(config) {
   config.addRuleForExtractCssModules();
 }
 ```
@@ -245,7 +245,7 @@ npm install --save-dev css-loader style-loader extract-text-webpack-plugin # for
 Resize images and include small ones. Add a rule to the `module.rules` for babel.  For example,
 
 ```javascript
-function buildConfig(config) {
+function customizer(config) {
   config.addRuleForImages();
 }
 ```
@@ -279,7 +279,7 @@ npm install --save-dev image-webpack-loader url-loader # for example
 To add the html webpack plugin with a default template to `plgins` for .  For example,
 
 ```javascript
-function buildConfig(config) {
+function customizer(config) {
   config.addHtmlWebpackPlugin();
 }
 ```
@@ -296,7 +296,7 @@ new HtmlWebpackPlugin({
 You can also pass an options object to customize the plugin.  For example,
 
 ```javascript
-function buildConfig(config) {
+function customizer(config) {
   config.addHtmlWebpackPlugin({
     template: './assets/index.html'
   });
@@ -322,7 +322,7 @@ yarn add --dev html-webpack-plugin
 Add a plugin to the `plugins` for babel.  For example,
 
 ```javascript
-function buildConfig(config) {
+function customizer(config) {
   config.addCommonsChunk('vendor');
 }
 ```
@@ -346,7 +346,7 @@ npm install --save-dev webpack
 Add an entry point for the CommonsChunkPlugin.  You can specify the modules explicitly or have them read from `package.json`.  For example, specifying explicitly,
 
 ```javascript
-function buildConfig(config) {
+function customizer(config) {
   config.entryAndCommonsChunk('vendor', ['react', 'redux']);
 }
 ```
@@ -373,7 +373,7 @@ and the `plugins` in the following way.
 For example, reading from `package.json`,
 
 ```javascript
-function buildConfig(config) {
+function customizer(config) {
   config.entryAndCommonsChunk('vendor');
 }
 ```
@@ -406,7 +406,7 @@ function customize(config) {
   config.plugin.push(new SomeJsPlugin());
 }
 
-function buildConfig(config) {
+function customizer(config) {
   config.custom(customize);
 }
 ```
@@ -416,7 +416,7 @@ function buildConfig(config) {
 Add an environment to the window scope.
 
 ```javascript
-function buildConfig(config) {
+function customizer(config) {
   config.addEnvironment();
 }
 ```
@@ -446,7 +446,7 @@ new webpack.DefinePlugin({
 Display the current state of the config.  For example,
 
 ```javascript
-function buildConfig(config) {
+function customizer(config) {
   config.addRuleForBabel().echo();
 }
 ```
@@ -455,7 +455,7 @@ will display the config showing the `entry`, `output`, and `module.rules` for Ba
 You can display the config multiple times to see how it changes.  For example,
 
 ```javascript
-function buildConfig(config) {
+function customizer(config) {
   config.echo().addRuleForBabel().echo();
 }
 ```
